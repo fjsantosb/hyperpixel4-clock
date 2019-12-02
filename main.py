@@ -1,6 +1,10 @@
 import pygame
 import datetime
 from random import randint
+import pyfiglet
+
+ascii_banner = pyfiglet.figlet_format('Hyperpixel 4 Clock')
+print(ascii_banner)
 
 pygame.init()
 pygame.mouse.set_visible(False)
@@ -21,8 +25,8 @@ digits = [[[0, 0, 0], [1, 1, 1], [1, 0, 1], [1, 0, 1], [1, 0, 1], [1, 1, 1], [0,
         [[0, 0, 0], [0, 0, 0], [0, 1, 0], [0, 0, 0], [0, 1, 0], [0, 0, 0], [0, 0, 0]],
         [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]]]
 
-#digits_color = [[0, 0, 0], [0, 209, 251]]
-digits_color = [[0, 0, 0], [170, 12, 12]]
+digits_color = [[0, 0, 0], [0, 209, 251]]
+#digits_color = [[0, 0, 0], [170, 12, 12]]
 
 pixel_size = 40
 pixel_space = 8
@@ -54,13 +58,11 @@ while True:
                     n = 11
                 else:
                     n = int(time[d])
-                r, g, b = (digits_color[digits[n][y][x]][0] - (y * 16), digits_color[digits[n][y][x]][1] - (y * 16), digits_color[digits[n][y][x]][2] - (y * 32))
-                if r < 0:
-                    r = 0
-                if g < 0:
-                    g = 0
-                if b < 0:
-                    b = 0
-                pygame.draw.rect(screen, (r, g, b), ((x * pixel_size) + (pixel_size * 4 * d) + offset_x, (y * pixel_size) + offset_y, pixel_size - pixel_space, pixel_size - pixel_space))
+                r, g, b = (digits_color[digits[n][y][x]][0] - (y * 16), digits_color[digits[n][y][x]][1] - (y * 16), digits_color[digits[n][y][x]][2] - (y * 16))
+                r = max(0, r)
+                g = max(0, g)
+                b = max(0, b)
+                if r != 0 or g != 0 or b != 0:
+                    pygame.draw.rect(screen, (r, g, b), ((x * pixel_size) + (pixel_size * 4 * d) + offset_x, (y * pixel_size) + offset_y, pixel_size - pixel_space, pixel_size - pixel_space))
     pygame.display.flip()
     clock.tick(1)
